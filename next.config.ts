@@ -2,7 +2,6 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   /* config options here */
-  output: 'standalone',
   experimental: {
     optimizePackageImports: ['lucide-react'],
   },
@@ -15,6 +14,7 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  // Remove output: 'standalone' as it can cause issues with Netlify
 };
 
 export default nextConfig;
