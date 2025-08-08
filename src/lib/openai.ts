@@ -63,29 +63,6 @@ const ERROR_MESSAGES = {
   INVALID_RESPONSE: 'Ogiltigt svar från analysen. Försök igen.',
 } as const
 
-// Mock data for development/fallback
-const MOCK_ANALYSIS: OpenAIAnalysisResult = {
-  overall_score: 72,
-  title_score: 75,
-  h1_score: 80,
-  meta_score: 60,
-  content_score: 78,
-  technical_score: 68,
-  improvements: [
-    { area: 'Titel', score: 75, issue: 'Allmän titel utan nyckelord', solution: 'Inkludera sökord och plats i titeln', priority: 'high' },
-    { area: 'H1', score: 80, issue: 'Flera H1-element', solution: 'Begränsa till en H1 och använd H2/H3 för struktur', priority: 'medium' },
-    { area: 'Meta', score: 60, issue: 'Saknar meta-beskrivning', solution: 'Skriv 120–160 tecken med CTA och sökord', priority: 'medium' },
-    { area: 'Innehåll', score: 78, issue: 'Tunt innehåll', solution: 'Utöka med 300–600 ord som besvarar kundens frågor', priority: 'high' },
-    { area: 'Teknik', score: 68, issue: 'Långsam laddning', solution: 'Aktivera caching och komprimera resurser', priority: 'medium' },
-  ],
-  content_ideas: [
-    'Guide: Så väljer du rätt tjänst för ditt företag',
-    'FAQ: Vanliga frågor och priser',
-    'Checklista: 10 saker att tänka på innan du anlitar hjälp'
-  ],
-  tokens_used: 2310
-}
-
 // ========================
 // OpenAI client
 // ========================
@@ -93,16 +70,6 @@ const MOCK_ANALYSIS: OpenAIAnalysisResult = {
 export const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 })
-
-// Logga varning en gång om mock är aktiverad
-let warnedMock = false
-function warnIfMockEnabled() {
-  if (process.env.OPENAI_USE_MOCK === 'true' && !warnedMock) {
-    // Svensk varning i serverloggar
-    console.warn('Varning: OPENAI_USE_MOCK=true är aktiverat. Mockade AI-svar kan returneras vid rate limiting. Glöm inte att stänga av innan produktion.')
-    warnedMock = true
-  }
-}
 
 // ========================
 // Helpers
@@ -393,9 +360,6 @@ export async function analyzeSEO(params: AnalyzeParams): Promise<OpenAIAnalysisR
     throw new Error(ERROR_MESSAGES.NO_API_KEY)
   }
 
-  // Warn once if mock is enabled
-  warnIfMockEnabled()
-
   const { crawlData, options: userOptions = {} } = params
   const options = { ...DEFAULT_OPTIONS, ...userOptions }
   const crawl = normalizeCrawlData(crawlData)
@@ -428,9 +392,6 @@ export async function analyzeSEO(params: AnalyzeParams): Promise<OpenAIAnalysisR
     return toSeoAnalysis(parsed, usageCounts)
   } catch (err) {
     const status = getStatusCode(err)
-    if (status === 429 && process.env.OPENAI_USE_MOCK === 'true') {
-      return MOCK_ANALYSIS
-    }
     if (err instanceof Error && err.message === ERROR_MESSAGES.TIMEOUT) {
       throw new Error(ERROR_MESSAGES.TIMEOUT)
     }

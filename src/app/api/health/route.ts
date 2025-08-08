@@ -26,13 +26,13 @@ interface ServiceHealth {
   status: 'healthy' | 'degraded' | 'unhealthy';
   responseTime: number;
   error?: string;
-  details?: Record<string, any>;
+  details?: Record<string, unknown>;
 }
 
 /**
  * Comprehensive health check for all critical services
  */
-export async function GET(request: NextRequest): Promise<NextResponse<HealthStatus>> {
+export async function GET(): Promise<NextResponse<HealthStatus>> {
   const startTime = Date.now();
   const healthStatus: HealthStatus = {
     status: 'healthy',
@@ -238,6 +238,6 @@ export async function GET(request: NextRequest): Promise<NextResponse<HealthStat
 /**
  * Simple liveness probe for Kubernetes/container orchestration
  */
-export async function HEAD(request: NextRequest): Promise<NextResponse> {
+export async function HEAD(): Promise<NextResponse> {
   return NextResponse.json({ status: 'alive' }, { status: 200 });
 }

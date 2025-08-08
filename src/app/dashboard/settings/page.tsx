@@ -26,7 +26,18 @@ export default function SettingsPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [_showDeleteConfirm, _setShowDeleteConfirm] = useState(false);
+
+  useEffect(() => {
+    if (profile) {
+      setForm({
+        name: profile.name || '',
+        company: profile.company || '',
+        email: profile.email || '',
+        gdpr_consent: profile.gdpr_consent || false,
+      });
+    }
+  }, [profile]);
 
   // Redirect if not authenticated
   if (!userLoading && !profile) {
@@ -42,17 +53,6 @@ export default function SettingsPage() {
       </div>
     );
   }
-
-  useEffect(() => {
-    if (profile) {
-      setForm({
-        name: profile.name || '',
-        company: profile.company || '',
-        email: profile.email || '',
-        gdpr_consent: profile.gdpr_consent || false,
-      });
-    }
-  }, [profile]);
 
   const handleInputChange = (field: keyof ProfileForm, value: string | boolean) => {
     setForm(prev => ({ ...prev, [field]: value }));
@@ -87,7 +87,7 @@ export default function SettingsPage() {
       
       // Clear success message after 3 seconds
       setTimeout(() => setSuccess(''), 3000);
-    } catch (err) {
+    } catch {
       setError('Ett oväntat fel uppstod. Försök igen.');
     } finally {
       setIsSaving(false);
@@ -127,7 +127,7 @@ export default function SettingsPage() {
       // Sign out and redirect
       await supabase.auth.signOut();
       router.push('/');
-    } catch (err) {
+    } catch {
       setError('Ett fel uppstod vid borttagning av konto. Kontakta support.');
     }
   };

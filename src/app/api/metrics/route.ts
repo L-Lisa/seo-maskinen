@@ -36,7 +36,7 @@ interface SystemMetrics {
 /**
  * System metrics endpoint for monitoring and analytics
  */
-export async function GET(request: NextRequest): Promise<NextResponse<SystemMetrics | { error: string }>> {
+export async function GET(): Promise<NextResponse<SystemMetrics | { error: string }>> {
   const startTime = Date.now();
   
   try {

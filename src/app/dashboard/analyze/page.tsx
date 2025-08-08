@@ -11,8 +11,33 @@ import type { ApiResult } from '@/types/api';
 interface AnalysisResponse {
   id: string | null;
   url: string;
-  analysis: any;
-  crawlData: any;
+  analysis: {
+    overall_score: number;
+    title_score: number;
+    h1_score: number;
+    meta_score: number;
+    content_score: number;
+    technical_score: number;
+    improvements: Array<{
+      area: string;
+      issue: string;
+      solution: string;
+      priority: string;
+    }>;
+    content_ideas: string[];
+    tokens_used: number;
+  };
+  crawlData: {
+    url: string;
+    title?: string;
+    h1?: string;
+    meta?: string;
+    content: string;
+    loadTime: number;
+    mobileFriendly: boolean;
+    pages: string[];
+    errors: string[];
+  };
   createdAt: string | null;
 }
 
@@ -59,8 +84,6 @@ export default function AnalyzePage() {
         return;
       }
 
-      const supabase = createClient();
-
       const response = await fetch('/api/analyze', {
         method: 'POST',
         headers: {
@@ -90,7 +113,7 @@ export default function AnalyzePage() {
         }
       }, 2000);
 
-    } catch (err) {
+    } catch {
       setError('Ett oväntat fel uppstod. Kontrollera din internetanslutning och försök igen.');
     } finally {
       setIsAnalyzing(false);

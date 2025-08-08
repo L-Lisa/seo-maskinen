@@ -17,6 +17,10 @@ export default function HistoryPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  useEffect(() => {
+    fetchAnalyses();
+  }, []);
+
   // Redirect if not authenticated
   if (!userLoading && !profile) {
     router.push('/login');
@@ -31,10 +35,6 @@ export default function HistoryPage() {
       </div>
     );
   }
-
-  useEffect(() => {
-    fetchAnalyses();
-  }, []);
 
   const fetchAnalyses = async () => {
     try {
@@ -52,7 +52,7 @@ export default function HistoryPage() {
       }
 
       setAnalyses(data || []);
-    } catch (err) {
+    } catch {
       setError('Ett oväntat fel uppstod. Försök igen.');
     } finally {
       setLoading(false);

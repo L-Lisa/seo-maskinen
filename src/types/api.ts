@@ -31,7 +31,12 @@ export interface AnalysisResultResponse {
   url: string;
   status: 'pending' | 'processing' | 'completed' | 'error';
   overall_score?: number;
-  improvements?: any[];
+  improvements?: Array<{
+    area: string;
+    issue: string;
+    solution: string;
+    priority: string;
+  }>;
   content_ideas?: string[];
   created_at: string;
 }
