@@ -3,8 +3,8 @@
   publish = ".next"
 
 [build.environment]
-  NODE_VERSION = "18"
-  NPM_VERSION = "9"
+  NODE_VERSION = "20"
+  NPM_VERSION = "10"
 
 # Next.js specific redirects
 [[redirects]]
@@ -17,6 +17,7 @@
   to = "/api/:splat"
   status = 200
 
+# Catch-all redirect for Next.js
 [[redirects]]
   from = "/*"
   to = "/index.html"
