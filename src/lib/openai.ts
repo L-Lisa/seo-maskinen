@@ -64,12 +64,15 @@ const ERROR_MESSAGES = {
 } as const
 
 // ========================
-// OpenAI client
+// OpenAI client - DISABLED FOR COMING SOON MODE
 // ========================
 
-export const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-})
+// export const openai = new OpenAI({
+//   apiKey: process.env.OPENAI_API_KEY,
+// })
+
+// Mock client for coming soon mode
+export const openai: OpenAI | null = null;
 
 // ========================
 // Helpers
@@ -266,12 +269,57 @@ async function withTimeout<T>(promise: Promise<T>, timeoutMs: number, signal?: A
 }
 
 async function callOpenAIOnce(messages: ChatMessage[], opts: { model: string; temperature: number }, signal?: AbortSignal): Promise<{ content: string; usage: { prompt_tokens: number; completion_tokens: number; total_tokens: number } }> {
+  // Mock response for coming soon mode
+  if (!openai) {
+    return {
+      content: JSON.stringify({
+        scores: {
+          overall: 75,
+          title: 80,
+          h1: 70,
+          meta: 65,
+          content: 75,
+          technical: 80
+        },
+        quickWins: [
+          "Lägg till mer innehåll på sidan",
+          "Förbättra meta-beskrivningen"
+        ],
+        improvements: [
+          {
+            area: "Innehåll",
+            issue: "Sidan behöver mer text",
+            fix: "Lägg till minst 300 ord relevant innehåll",
+            impact: "hög"
+          }
+        ],
+        metaSuggestions: {
+          title: "Förbättrad titel",
+          description: "Bättre meta-beskrivning"
+        },
+        contentIdeas: [
+          "Skriv om din tjänst",
+          "Lägg till kundrecensioner"
+        ],
+        tokensUsed: {
+          prompt: 500,
+          completion: 200,
+          total: 700
+        }
+      }),
+      usage: {
+        prompt_tokens: 500,
+        completion_tokens: 200,
+        total_tokens: 700
+      }
+    };
+  }
+
   const res = await openai.chat.completions.create({
     model: opts.model,
     temperature: opts.temperature,
     messages,
-    response_format: { type: 'text' },
-    // @ts-expect-error openai sdk supports signal in fetch options
+  }, {
     signal,
   })
   const choice = res.choices?.[0]

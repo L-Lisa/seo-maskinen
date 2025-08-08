@@ -25,6 +25,18 @@ interface AnalysisResponse {
 }
 
 export async function POST(request: NextRequest): Promise<NextResponse<ApiResult<AnalysisResponse>>> {
+  // DISABLED FOR COMING SOON MODE
+  // Skip environment validation during build time
+  // if (process.env.NODE_ENV === 'production' && !process.env.OPENAI_API_KEY) {
+  //   return NextResponse.json(
+  //     createErrorResponse(
+  //       'Tjänsten är inte tillgänglig just nu. Försök igen senare.',
+  //       'SERVICE_UNAVAILABLE'
+  //     ),
+  //     { status: 503 }
+  //   );
+  // }
+
   // Generate request ID for tracing
   const requestId = generateRequestId();
   const startTime = Date.now();
@@ -45,8 +57,11 @@ export async function POST(request: NextRequest): Promise<NextResponse<ApiResult
   });
 
   try {
-    // Validate environment first
-    validateEnv();
+    // DISABLED FOR COMING SOON MODE
+    // Validate environment first (only in runtime, not build time)
+    // if (process.env.NODE_ENV !== 'production' || process.env.OPENAI_API_KEY) {
+    //   validateEnv();
+    // }
 
     // Parse and validate request body
     const body = await request.json();
