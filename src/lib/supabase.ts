@@ -22,17 +22,50 @@ export const ANALYSIS_ERRORS = {
 
 // Browser client instance
 export const createClient = () => {
+  // DISABLED FOR COMING SOON MODE
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    // Return a mock client for coming soon mode
+    return {
+      auth: {
+        getUser: () => Promise.resolve({ data: { user: null }, error: null }),
+        getSession: () => Promise.resolve({ data: { session: null }, error: null }),
+        signOut: () => Promise.resolve({ error: null }),
+      },
+      from: () => ({
+        select: () => ({ eq: () => ({ single: () => Promise.resolve({ data: null, error: null }) }) }),
+        insert: () => ({ select: () => ({ single: () => Promise.resolve({ data: null, error: null }) }) }),
+        update: () => ({ eq: () => ({ select: () => ({ single: () => Promise.resolve({ data: null, error: null }) }) }) }),
+      }),
+    } as unknown as ReturnType<typeof createBrowserClient<Database>>;
+  }
+
   return createBrowserClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
   )
 }
 
 // Server client instance with service role for admin operations
 export const createServerClient = () => {
+  // DISABLED FOR COMING SOON MODE
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+    // Return a mock client for coming soon mode
+    return {
+      auth: {
+        getUser: () => Promise.resolve({ data: { user: null }, error: null }),
+        getSession: () => Promise.resolve({ data: { session: null }, error: null }),
+      },
+      from: () => ({
+        select: () => ({ eq: () => ({ single: () => Promise.resolve({ data: null, error: null }) }) }),
+        insert: () => ({ select: () => ({ single: () => Promise.resolve({ data: null, error: null }) }) }),
+        update: () => ({ eq: () => ({ select: () => ({ single: () => Promise.resolve({ data: null, error: null }) }) }) }),
+      }),
+    } as unknown as ReturnType<typeof createSupabaseServerClient<Database>>;
+  }
+
   return createSupabaseServerClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    process.env.NEXT_PUBLIC_SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_ROLE_KEY,
     {
       cookies: {
         get(name: string) {

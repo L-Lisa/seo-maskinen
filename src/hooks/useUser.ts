@@ -73,12 +73,11 @@ export function useUser(): UseUserReturn {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
     
+    // DISABLED FOR COMING SOON MODE
     if (!supabaseUrl || !supabaseKey) {
-      console.error('🔍 useEffect: Missing environment variables:', { 
-        hasUrl: !!supabaseUrl, 
-        hasKey: !!supabaseKey 
-      });
-      setError('Konfigurationsfel. Kontakta support.');
+      console.log('🔍 useEffect: Missing environment variables - coming soon mode');
+      setUser(null);
+      setProfile(null);
       setLoading(false);
       return;
     }
