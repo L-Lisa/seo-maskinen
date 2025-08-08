@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  // Basic configuration without problematic options
+  // Basic configuration
   trailingSlash: false,
 };
 
