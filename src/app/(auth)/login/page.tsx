@@ -1,6 +1,6 @@
 'use client';
 
-git import { Suspense } from 'react';
+import { Suspense } from 'react';
 import { Lock, Globe, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
