@@ -1,0 +1,181 @@
+# SEO Maskinen - Cursor Rules
+
+## Project Context
+**Tech:** Next.js 14 + TypeScript + Tailwind + Supabase + OpenAI  
+**Goal:** Sveriges enklaste SEO-verktyg för småföretagare  
+**Language:** Swedish UI text, English code  
+
+## Core Rules
+
+### Implementation
+- **C-1 (MUST)** Use consistent naming: `analyzeWebsite`, `crawlData`, `seoResult`
+- **C-2 (MUST)** Use branded types: `type UserId = string & { readonly brand: unique symbol }`
+- **C-3 (MUST)** Use `import type { … }` for type-only imports
+- **C-4 (MUST)** ALWAYS complete all code blocks - no truncation or "// rest of implementation"
+- **C-5 (MUST)** All functions must be fully implemented with proper closing braces
+- **C-6 (MUST)** ALWAYS verify ENTIRE file compilation - never assume partial fixes work
+- **C-7 (MUST)** Use `read_lints` tool for complete error analysis before starting fixes
+- **C-8 (MUST)** Fix errors systematically by type/scope, not sequentially one-by-one
+
+### SEO Maskinen Specific
+- **SM-1 (MUST)** All UI text in Swedish: `"Analysera din webbplats"`, `"Förbättringsförslag"`
+- **SM-2 (MUST)** All code/functions in English: `analyzeWebsite()`, `SeoAnalysis`
+- **SM-3 (MUST)** Handle OpenAI/Puppeteer failures with Swedish user messages
+- **SM-4 (MUST)** Mobile-first responsive design for all components
+- **SM-5 (MUST)** All external API calls need timeout handling (90s crawler, 30s OpenAI)
+
+### Database & API
+- **D-1 (MUST)** Use Supabase RLS policies - users only see their own data
+- **A-1 (MUST)** API routes return: `{ success: true, data: T } | { success: false, error: string }`
+- **A-2 (MUST)** Swedish error messages: `"Analys misslyckades. Försök igen."`
+
+### Components  
+- **CO-1 (MUST)** All components responsive (mobile-first)
+- **CO-2 (MUST)** Use design system colors: primary #10B981, dark #111827
+- **CO-3 (MUST)** Handle loading states with proper UI feedback
+
+## Shortcuts
+
+### QPLAN
+```
+Analyze existing codebase and plan implementation with complete code strategy
+```
+
+### QCODE  
+```
+Implement plan ensuring:
+- TypeScript compilation passes
+- All code blocks complete (no truncation)
+- Swedish UI text for småföretagare
+- Mobile-responsive design  
+- Proper error handling
+```
+
+### QVERIFY
+```
+MANDATORY verification checklist - complete ALL steps:
+1. Run `read_lints` on EVERY modified file to check for errors
+2. Count total errors: X errors in Y files
+3. Categorize errors by type (missing props, type mismatches, etc.)
+4. Fix ALL errors systematically by category, not one-by-one
+5. Re-run `read_lints` after each major fix to verify progress
+6. NEVER mark task complete until read_lints shows 0 errors
+7. Test 'npm run dev' works without compilation errors
+8. List files created/modified with final error count
+```
+
+### QCHECK
+```
+Review for:
+1. Swedish UI text quality
+2. Mobile responsiveness
+3. OpenAI/Supabase error handling  
+4. TypeScript type safety
+```
+
+### QSEO
+```
+Evaluate SEO feature:
+1. OpenAI prompts effective?
+2. Crawling respects limits?
+3. Results helpful for småföretagare?
+4. Analysis fast enough (<30s)?
+```
+
+## Quality Workflow (MANDATORY ORDER)
+```bash
+1. qplan     # Plan with full scope understanding
+2. qcode     # Implement following all rules
+3. qverify   # COMPLETE verification (read_lints + fix ALL errors)
+4. qcheck    # Review quality only after 0 errors
+5. npm run dev # Final integration test
+```
+
+### Example Correct QVERIFY Process:
+```bash
+# Step 1: Analyze scope
+read_lints src/lib/openai.ts
+# Found 16 errors: 8 type mismatches, 4 missing properties, 3 invalid signatures, 1 import issue
+
+# Step 2: Fix systematically by type
+# Fix all type mismatches first
+# Fix all missing properties second  
+# Fix all signatures third
+# Fix import issues last
+
+# Step 3: Verify after each batch
+read_lints src/lib/openai.ts
+# Found 8 errors: 4 missing properties, 3 invalid signatures, 1 import issue
+
+# Step 4: Continue until complete
+read_lints src/lib/openai.ts  
+# Found 0 errors - NOW task is complete
+```
+
+## Error Prevention & Verification Rules
+
+### Critical Process Rules (MUST FOLLOW)
+- **V-1 (MUST)** ALWAYS run `read_lints` on target files BEFORE starting any fixes
+- **V-2 (MUST)** Count and categorize ALL errors upfront: "Found X errors: Y type mismatches, Z missing properties"
+- **V-3 (MUST)** Fix errors systematically by TYPE/SCOPE, never sequentially line-by-line
+- **V-4 (MUST)** Re-run `read_lints` after each major fix batch to verify progress
+- **V-5 (MUST)** NEVER mark tasks complete until `read_lints` shows 0 errors
+- **V-6 (MUST)** When `npx tsc` fails due to path aliases, use full project compilation check instead
+
+### Implementation Rules
+- ❌ NEVER use "// TODO" or "// Implementation continues..."
+- ❌ NEVER truncate functions or leave incomplete
+- ❌ NEVER missing imports or unclosed braces
+- ❌ NEVER assume partial fixes work without verification
+- ❌ NEVER fix errors one-by-one without understanding full scope
+- ✅ ALWAYS implement complete error handling
+- ✅ ALWAYS verify ENTIRE file compilation after changes
+- ✅ ALWAYS use `read_lints` for comprehensive error analysis
+
+## Common Patterns
+
+### API Route
+```ts
+export async function POST(request: Request) {
+  try {
+    const user = await getUser(request);
+    if (!user) return Response.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+    
+    // COMPLETE implementation - no shortcuts
+    const body = await request.json();
+    const result = await processData(body);
+    
+    return Response.json({ success: true, data: result });
+  } catch (error) {
+    return Response.json({ success: false, error: 'Något gick fel. Försök igen.' }, { status: 500 });
+  }
+}
+```
+
+### Component
+```tsx
+interface Props {
+  /** SEO-analys data från servern */
+  analysis: SeoAnalysis;
+}
+
+export default function Component({ analysis }: Props) {
+  const [loading, setLoading] = useState(false);
+  
+  // COMPLETE implementation required
+  const handleAction = async () => {
+    setLoading(true);
+    try {
+      // Full implementation here
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  return (
+    <div className="bg-gray-800 p-6 rounded-xl">
+      {/* Complete JSX */}
+    </div>
+  );
+}
+```
