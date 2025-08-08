@@ -19,6 +19,13 @@ export const metadata: Metadata = {
   title: "SEO Maskinen - Sveriges enklaste SEO-verktyg",
   description:
     "SEO-verktyg för småföretagare som vill förbättra sin hemsida själva",
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+      { url: '/favicon.ico', sizes: 'any' }
+    ],
+    apple: '/favicon.svg',
+  },
 };
 
 // Prevent static generation of error pages
