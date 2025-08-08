@@ -21,6 +21,9 @@ export const metadata: Metadata = {
     "SEO-verktyg för småföretagare som vill förbättra sin hemsida själva",
 };
 
+// Prevent static generation of error pages
+export const dynamic = 'force-dynamic';
+
 export default function RootLayout({
   children,
 }: {
