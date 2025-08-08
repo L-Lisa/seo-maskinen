@@ -14,6 +14,8 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  // Disable static generation for error pages
+  trailingSlash: false,
   // Remove output: 'standalone' as it can cause issues with Netlify
 };
 
