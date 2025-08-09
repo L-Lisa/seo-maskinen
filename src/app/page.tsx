@@ -1,7 +1,5 @@
-'use client';
-
 import Link from 'next/link';
-import { Search, BarChart3, Zap, Shield, Globe, Users } from 'lucide-react';
+import { Search, BarChart3, Shield, Globe } from 'lucide-react';
 
 export default function HomePage() {
   return (
@@ -35,25 +33,14 @@ export default function HomePage() {
               Förbättra din hemsidas synlighet med AI-drivet SEO. Perfekt för småföretagare som vill ta kontroll över sin digitala närvaro.
             </p>
             
-            {/* Beta Notice */}
-            <div className="bg-primary/10 border border-primary/20 rounded-lg p-6 mb-8 max-w-2xl mx-auto">
-              <div className="flex items-center justify-center mb-3">
-                <Zap className="h-6 w-6 text-primary mr-2" />
-                <span className="text-primary font-semibold">Beta Version</span>
-              </div>
-              <p className="text-gray-300 text-sm">
-                Vi arbetar hårt för att göra SEO Maskinen tillgänglig för alla småföretagare. 
-                Just nu är vi i beta-fas och förbereder för lansering.
-              </p>
-            </div>
-
-            {/* Disabled CTA Button */}
-            <button 
-              disabled 
-              className="bg-gray-600 text-gray-400 px-8 py-4 rounded-lg font-semibold text-lg cursor-not-allowed opacity-50"
+            {/* CTA Button */}
+            <Link 
+              href="/login"
+              className="inline-block bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-lg font-semibold text-lg transition-colors"
             >
-              Kommer snart
-            </button>
+              <Search className="inline h-5 w-5 mr-2" />
+              Analysera din webbplats
+            </Link>
           </div>
         </div>
       </section>

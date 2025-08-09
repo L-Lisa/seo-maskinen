@@ -1,7 +1,7 @@
 # SEO Maskinen - Cursor Rules
 
 ## Project Context
-**Tech:** Next.js 14 + TypeScript + Tailwind + Supabase + OpenAI  
+**Tech:** Next.js 14 + TypeScript + Tailwind (Frontend-only)  
 **Goal:** Sveriges enklaste SEO-verktyg för småföretagare  
 **Language:** Swedish UI text, English code  
 
@@ -20,14 +20,14 @@
 ### SEO Maskinen Specific
 - **SM-1 (MUST)** All UI text in Swedish: `"Analysera din webbplats"`, `"Förbättringsförslag"`
 - **SM-2 (MUST)** All code/functions in English: `analyzeWebsite()`, `SeoAnalysis`
-- **SM-3 (MUST)** Handle OpenAI/Puppeteer failures with Swedish user messages
+- **SM-3 (MUST)** Handle API failures with Swedish user messages
 - **SM-4 (MUST)** Mobile-first responsive design for all components
-- **SM-5 (MUST)** All external API calls need timeout handling (90s crawler, 30s OpenAI)
+- **SM-5 (MUST)** Client-side analysis with CORS proxy handling and timeouts
 
-### Database & API
-- **D-1 (MUST)** Use Supabase RLS policies - users only see their own data
-- **A-1 (MUST)** API routes return: `{ success: true, data: T } | { success: false, error: string }`
-- **A-2 (MUST)** Swedish error messages: `"Analys misslyckades. Försök igen."`
+### Frontend SEO Analysis
+- **F-1 (MUST)** Use CORS proxy for website content fetching
+- **F-2 (MUST)** Client-side HTML parsing with DOMParser
+- **F-3 (MUST)** Swedish error messages: `"Analys misslyckades. Försök igen."`
 
 ### Components  
 - **CO-1 (MUST)** All components responsive (mobile-first)
