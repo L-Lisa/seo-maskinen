@@ -1,0 +1,9 @@
+{
+  "functions": {
+    "src/app/api/analyze-website/route.ts": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "regions": ["arn1"],
+  "buildCommand": "npm run build"
+}

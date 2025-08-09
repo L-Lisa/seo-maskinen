@@ -7,6 +7,8 @@ const nextConfig: NextConfig = {
     // Core Web Vitals optimizations
     scrollRestoration: true,
   },
+  // Force Node.js runtime to avoid Edge Runtime conflicts (Next.js 15+)
+  serverExternalPackages: ['puppeteer'],
   eslint: {
     ignoreDuringBuilds: true,
   },

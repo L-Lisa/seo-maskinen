@@ -4,6 +4,10 @@
 import puppeteer from 'puppeteer';
 import type { WebsiteData } from '@/types/seo';
 
+// Force Node.js runtime for Puppeteer compatibility
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: Request) {
   try {
     const { url } = await request.json();

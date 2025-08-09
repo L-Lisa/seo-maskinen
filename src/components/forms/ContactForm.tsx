@@ -94,7 +94,8 @@ export default function ContactForm() {
             />
           </div>
 
-          <div>
+          {/* Email field temporarily hidden */}
+          {/* <div>
             <label htmlFor="email" className="block text-sm font-medium text-light mb-2">
               E-post *
             </label>
@@ -108,7 +109,7 @@ export default function ContactForm() {
               className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-white placeholder-gray-400"
               placeholder="din@email.se"
             />
-          </div>
+          </div> */}
         </div>
 
         <div className="grid md:grid-cols-2 gap-6">

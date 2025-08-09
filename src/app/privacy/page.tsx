@@ -92,7 +92,7 @@ export default function PrivacyPolicyPage() {
               Har du frågor om vår datahantering? Kontakta oss på:
             </p>
             <p className="text-primary mt-2">
-              <strong>privacy@seo-maskinen.se</strong>
+              <strong>kontakt [at] seo-maskinen [dot] se</strong>
             </p>
             
             <p className="text-gray-400 text-sm mt-4">
