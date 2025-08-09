@@ -3,7 +3,7 @@ import { StructuredData, softwareApplicationSchema, serviceSchema } from '@/comp
 
 export const metadata: Metadata = {
   title: 'Gratis SEO-analys - Analysera din webbplats nu',
-  description: 'Få en komplett SEO-analys av din webbplats på svenska. Analysera title tags, meta descriptions, nyckelord och mer. Helt gratis för småföretagare.',
+  description: 'Starta din gratis SEO-analys på 30 sekunder! Få konkreta förbättringsförslag på svenska för title tags, meta descriptions och nyckelord. 5 analyser per dag - ingen registrering krävs.',
   keywords: [
     'gratis SEO analys',
     'webbplats analys', 
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: 'Gratis SEO-analys - Analysera din webbplats nu | SEO Maskinen',
-    description: 'Få en komplett SEO-analys av din webbplats på svenska. Analysera title tags, meta descriptions, nyckelord och mer.',
+    description: 'Starta din gratis SEO-analys på 30 sekunder! Få konkreta förbättringsförslag på svenska. 5 analyser per dag - ingen registrering krävs.',
     url: 'https://seomaskinen.se/login',
   },
   alternates: {

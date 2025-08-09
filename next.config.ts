@@ -6,6 +6,8 @@ const nextConfig: NextConfig = {
     optimizePackageImports: ['lucide-react'],
     optimizeCss: true,
     useWasmBinary: true,
+    // Core Web Vitals optimizations
+    scrollRestoration: true,
   },
   eslint: {
     ignoreDuringBuilds: true,
@@ -20,6 +22,9 @@ const nextConfig: NextConfig = {
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     domains: [],
     minimumCacheTTL: 60,
+    // Additional performance settings
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
   // Performance optimizations
   trailingSlash: false,

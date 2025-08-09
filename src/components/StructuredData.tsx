@@ -51,12 +51,37 @@ export const organizationSchema = {
     "@type": "Organization",
     "name": "SEO Maskinen Team"
   },
-  "areaServed": {
-    "@type": "Country",
-    "name": "Sverige"
-  },
+  "areaServed": [
+    {
+      "@type": "Country",
+      "name": "Sverige"
+    },
+    {
+      "@type": "AdministrativeArea",
+      "name": "Sverige",
+      "containedInPlace": {
+        "@type": "Country",
+        "name": "Sverige"
+      }
+    }
+  ],
   "serviceType": "SEO-verktyg och webbplatsanalys",
-  "slogan": "Sveriges enklaste SEO-verktyg"
+  "slogan": "Sveriges enklaste SEO-verktyg",
+  "knowsLanguage": ["sv-SE", "sv"],
+  "currenciesAccepted": "SEK",
+  "paymentAccepted": "Gratis",
+  "memberOf": {
+    "@type": "Organization",
+    "name": "Svenska Digitala Företag"
+  },
+  "audience": {
+    "@type": "BusinessAudience",
+    "audienceType": "Småföretagare i Sverige",
+    "geographicArea": {
+      "@type": "Country", 
+      "name": "Sverige"
+    }
+  }
 };
 
 // SoftwareApplication Schema for the SEO tool
@@ -149,5 +174,64 @@ export const serviceSchema = {
         }
       }
     ]
+  }
+};
+
+// LocalBusiness Schema for Swedish SEO
+export const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": "https://seomaskinen.se/#localbusiness",
+  "name": "SEO Maskinen",
+  "description": "Sveriges enklaste SEO-verktyg för småföretagare. Hjälper svenska företag att förbättra sin synlighet online.",
+  "url": "https://seomaskinen.se",
+  "logo": "https://seomaskinen.se/logo.png",
+  "image": "https://seomaskinen.se/og-image.jpg",
+  "addressCountry": "SE",
+  "addressRegion": "Sverige", 
+  "addressLocality": "Sverige",
+  "areaServed": {
+    "@type": "Country",
+    "name": "Sverige",
+    "alternateName": "Sweden"
+  },
+  "knowsLanguage": ["sv-SE", "svenska"],
+  "currenciesAccepted": "SEK",
+  "paymentAccepted": "Gratis",
+  "priceRange": "Gratis",
+  "openingHours": "Mo-Su 00:00-23:59",
+  "serviceArea": {
+    "@type": "GeoCircle",
+    "@id": "https://seomaskinen.se/#servicearea",
+    "geoMidpoint": {
+      "@type": "GeoCoordinates",
+      "latitude": "62.0",
+      "longitude": "15.0"
+    },
+    "geoRadius": "1000000"
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "SEO-tjänster för svenska företag", 
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Gratis SEO-analys",
+          "description": "Komplett SEO-analys av svenska webbplatser"
+        },
+        "price": "0",
+        "priceCurrency": "SEK"
+      }
+    ]
+  },
+  "audience": {
+    "@type": "BusinessAudience",
+    "audienceType": "Svenska småföretagare",
+    "geographicArea": {
+      "@type": "Country",
+      "name": "Sverige"
+    }
   }
 };

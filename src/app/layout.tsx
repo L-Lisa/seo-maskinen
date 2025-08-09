@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
-import { StructuredData, websiteSchema, organizationSchema } from '@/components/StructuredData';
+import { StructuredData, websiteSchema, organizationSchema, localBusinessSchema } from '@/components/StructuredData';
+import Analytics from '@/components/Analytics';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
     template: "%s | SEO Maskinen"
   },
   description:
-    "Förbättra din hemsidas synlighet med AI-drivet SEO-verktyg. Perfekt för svenska småföretagare som vill optimera sin webbplats själva. Gratis SEO-analys på svenska.",
+    "Sveriges enklaste SEO-verktyg för småföretagare! Få AI-drivet SEO-analys på svenska med konkreta förbättringsförslag. 5 gratis analyser per dag - starta direkt utan registrering.",
   keywords: [
     "SEO-verktyg",
     "SEO Sverige",
@@ -55,7 +56,7 @@ export const metadata: Metadata = {
     locale: 'sv_SE',
     url: 'https://seomaskinen.se',
     title: 'SEO Maskinen - Sveriges enklaste SEO-verktyg för småföretagare',
-    description: 'Förbättra din hemsidas synlighet med AI-drivet SEO-verktyg. Gratis SEO-analys på svenska för småföretagare.',
+    description: 'Sveriges enklaste SEO-verktyg för småföretagare! Få AI-drivet SEO-analys på svenska med konkreta förbättringsförslag. 5 gratis analyser per dag.',
     siteName: 'SEO Maskinen',
     images: [
       {
@@ -69,7 +70,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'SEO Maskinen - Sveriges enklaste SEO-verktyg',
-    description: 'Förbättra din hemsidas synlighet med AI-drivet SEO-verktyg. Gratis SEO-analys på svenska.',
+    description: 'Sveriges enklaste SEO-verktyg för småföretagare! AI-drivet SEO-analys på svenska. 5 gratis analyser per dag.',
     images: ['/og-image.jpg'],
     creator: '@seomaskinen',
   },
@@ -112,11 +113,29 @@ export default function RootLayout({
 }) {
   return (
     <html lang="sv" className={`${inter.variable} ${poppins.variable}`}>
-      <head>
-        <StructuredData data={websiteSchema} />
-        <StructuredData data={organizationSchema} />
-      </head>
+          <head>
+      {/* Preload critical resources for Core Web Vitals */}
+      <link rel="preload" href="/favicon.svg" as="image" type="image/svg+xml" />
+      <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+      <link rel="preconnect" href="//fonts.gstatic.com" crossOrigin="anonymous" />
+      
+      {/* Critical CSS for faster LCP */}
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          .bg-dark { background-color: #111827 }
+          .text-light { color: #f9fafb }
+          .text-primary { color: #10b981 }
+          .min-h-screen { min-height: 100vh }
+          .font-sans { font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif }
+        `
+      }} />
+      
+      <StructuredData data={websiteSchema} />
+      <StructuredData data={organizationSchema} />
+      <StructuredData data={localBusinessSchema} />
+    </head>
       <body className="bg-dark text-light min-h-screen font-sans">
+        <Analytics measurementId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />
         {children}
       </body>
     </html>

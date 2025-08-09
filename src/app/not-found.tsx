@@ -1,3 +1,15 @@
+import type { Metadata } from 'next';
+import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: '404 - Sidan hittades inte',
+  description: 'Sidan du letar efter finns inte. Gå tillbaka till SEO Maskinen och starta din gratis SEO-analys istället. Sveriges enklaste SEO-verktyg för småföretagare.',
+  robots: {
+    index: false,
+    follow: true,
+  },
+};
+
 export default function NotFound() {
   return (
     <div className="min-h-screen bg-dark text-light flex items-center justify-center">
@@ -7,12 +19,12 @@ export default function NotFound() {
         <p className="text-gray-400 mb-8">
           Sidan du letar efter finns inte eller har flyttats.
         </p>
-        <a
+        <Link
           href="/"
           className="inline-block bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
         >
           Gå tillbaka till startsidan
-        </a>
+        </Link>
       </div>
     </div>
   );

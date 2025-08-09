@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Search, Globe, ArrowLeft, Loader2, Clock, Zap, AlertTriangle } from 'lucide-react';
 import { canMakeRequest, recordSuccess, recordFailure, getUsageStats } from '@/lib/rate-limiter';
+import { trackSeoAnalysis } from '@/components/Analytics';
 import Link from 'next/link';
 import Breadcrumb from '@/components/Breadcrumb';
 import type { SeoAnalysisResult } from '@/types/seo';
@@ -83,10 +84,16 @@ export default function SeoAnalyzerPage() {
       // Record successful analysis
       recordSuccess();
       setUsageStats(getUsageStats());
+      
+      // Track successful SEO analysis (GDPR compliant)
+      trackSeoAnalysis(url, keyword, true);
     } catch (err) {
       // Record failed analysis
       recordFailure();
       setUsageStats(getUsageStats());
+      
+      // Track failed SEO analysis (GDPR compliant)
+      trackSeoAnalysis(url, keyword, false);
       
       setError(err instanceof Error ? err.message : 'Ett fel uppstod vid analysen');
     } finally {
@@ -176,7 +183,7 @@ export default function SeoAnalyzerPage() {
               }}
               className="bg-primary hover:bg-primary/90 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
             >
-              Analysera en ny webbplats
+              🔍 Analysera nästa webbplats
             </button>
           </div>
         </div>
@@ -186,10 +193,10 @@ export default function SeoAnalyzerPage() {
 
   return (
     <div className="min-h-screen bg-dark flex items-center justify-center px-4">
-      <div className="max-w-md w-full">
+      <main className="max-w-md w-full" role="main" aria-labelledby="page-title">
         <Breadcrumb items={[{ label: 'SEO-analys' }]} />
         
-        <div className="text-center mb-8">
+        <header className="text-center mb-8">
           <Link href="/" className="inline-flex items-center text-gray-400 hover:text-primary transition-colors mb-6">
             <ArrowLeft className="w-4 h-4 mr-2" aria-label="Tillbaka" />
             Tillbaka till startsidan
@@ -199,12 +206,13 @@ export default function SeoAnalyzerPage() {
             <Search className="h-8 w-8 text-primary" aria-label="SEO-analys ikon" />
           </div>
           
-          <h1 className="text-2xl font-bold text-light mb-4">
+          <h1 id="page-title" className="text-2xl font-bold text-light mb-4">
             Gratis SEO-analys för din webbplats
           </h1>
           
           <p className="text-gray-300 mb-4">
-            Analysera din webbplats och få direkta förbättringsförslag för bättre SEO.
+            Analysera din webbplats och få direkta förbättringsförslag för bättre SEO. 
+            Läs mer om vårt <Link href="/privacy" className="text-primary hover:text-primary/80 underline">GDPR-kompatibla</Link> tillvägagångssätt.
           </p>
           
           <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4 mb-6">
@@ -214,7 +222,11 @@ export default function SeoAnalyzerPage() {
             </p>
           </div>
 
-          {/* Daily Limit Counter - Simple & Playful */}
+                      <h2 className="text-lg font-semibold text-light mb-6 text-center">
+              Kom igång med din analys
+            </h2>
+
+            {/* Daily Limit Counter - Simple & Playful */}
           <div className={`rounded-xl p-6 mb-8 border ${
             usageStats.isFailureLimitReached
               ? 'bg-gradient-to-r from-red-500/10 to-orange-500/10 border-red-500/20' 
@@ -302,17 +314,20 @@ export default function SeoAnalyzerPage() {
               </div>
             )}
           </div>
-        </div>
+        </header>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6" role="form" aria-labelledby="form-heading" noValidate>
+          <div className="sr-only">
+            <h2 id="form-heading">SEO-analys formulär</h2>
+          </div>
           <div>
             <label htmlFor="url" className="block text-sm font-medium text-light mb-2">
               Webbplatsadress
             </label>
             <div className="relative">
-              <Globe className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <Globe className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" aria-hidden="true" />
               <input
-                type="text"
+                type="url"
                 id="url"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
@@ -320,7 +335,13 @@ export default function SeoAnalyzerPage() {
                 placeholder="exempel.se eller https://exempel.se"
                 className="w-full pl-10 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-white placeholder-gray-400"
                 disabled={loading}
+                required
+                aria-describedby="url-description"
+                aria-invalid={!!error && error.includes('webbplats')}
               />
+              <div id="url-description" className="sr-only">
+                Ange URL:en till webbplatsen du vill analysera
+              </div>
             </div>
           </div>
 
@@ -337,11 +358,17 @@ export default function SeoAnalyzerPage() {
               placeholder="ditt huvudnyckelord"
               className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent text-white placeholder-gray-400"
               disabled={loading}
+              required
+              aria-describedby="keyword-description"
+              aria-invalid={!!error && error.includes('nyckelord')}
             />
+            <div id="keyword-description" className="sr-only">
+              Ange det huvudnyckelord du vill optimera för
+            </div>
           </div>
 
           {error && (
-            <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4">
+            <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4" role="alert" aria-live="polite">
               <p className="text-red-400 text-sm">{error}</p>
             </div>
           )}
@@ -377,7 +404,7 @@ export default function SeoAnalyzerPage() {
             ) : (
               <>
                 <Search className="h-5 w-5 mr-2" />
-                Analysera webbplats ({usageStats.remainingSuccesses} kvar)
+                🎯 Starta SEO-analys ({usageStats.remainingSuccesses} kvar)
               </>
             )}
           </button>
@@ -386,7 +413,57 @@ export default function SeoAnalyzerPage() {
         <p className="text-center text-gray-400 text-sm mt-6">
           Tryck Enter för att starta analysen
         </p>
-      </div>
+
+        {/* SEO Information Section */}
+        <section className="mt-12 bg-gray-800/50 rounded-xl p-6" role="complementary" aria-labelledby="seo-info-heading">
+          <h2 id="seo-info-heading" className="text-xl font-semibold text-light mb-4 text-center">
+            Vad analyserar vi?
+          </h2>
+          
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="text-center">
+              <div className="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                <span className="text-blue-400 font-bold">T</span>
+              </div>
+              <h3 className="font-medium text-light mb-2">Title Tags</h3>
+              <p className="text-gray-400 text-sm">
+                Vi kontrollerar om din titel är optimerad för sökmotorer och innehåller ditt nyckelord.
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                <span className="text-green-400 font-bold">M</span>
+              </div>
+              <h3 className="font-medium text-light mb-2">Meta Descriptions</h3>
+              <p className="text-gray-400 text-sm">
+                Analyserar beskrivningar som visas i sökresultat för att maximera klickfrekvensen.
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="w-12 h-12 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                <span className="text-purple-400 font-bold">H</span>
+              </div>
+              <h3 className="font-medium text-light mb-2">Rubrikstruktur</h3>
+              <p className="text-gray-400 text-sm">
+                Granskar H1, H2, H3 taggar för optimal struktur och nyckelordsanvändning.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-8 p-4 bg-primary/10 border border-primary/20 rounded-lg">
+            <h3 className="font-semibold text-primary mb-2">🚀 Varför använda SEO Maskinen?</h3>
+            <ul className="space-y-2 text-sm text-gray-300">
+              <li>• <strong>Snabbt:</strong> Analys på 30 sekunder</li>
+              <li>• <strong>På svenska:</strong> Alla förbättringsförslag på svenska</li>
+              <li>• <strong>GDPR-säkert:</strong> Inga personuppgifter lagras</li>
+              <li>• <strong>Gratis:</strong> 5 analyser per dag utan registrering</li>
+              <li>• <strong>Konkret:</strong> Direkta förbättringsförslag du kan implementera</li>
+            </ul>
+          </div>
+        </section>
+      </main>
     </div>
   );
 }

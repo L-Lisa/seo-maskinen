@@ -1,4 +1,22 @@
 // SEO Maskinen - GDPR Privacy Policy
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Integritetspolicy & GDPR - SEO Maskinen',
+  description: 'Läs om vårt GDPR-kompatibla tillvägagångssätt för SEO-analys. Vi samlar aldrig personuppgifter, endast offentliga SEO-metadata. Fullständig transparens för svenska användare.',
+  keywords: [
+    'GDPR', 'integritetspolicy', 'personuppgifter', 'SEO-analys GDPR',
+    'GDPR-kompatibel', 'dataskydd', 'SEO verktyg sverige'
+  ],
+  alternates: {
+    canonical: '/privacy',
+  },
+  openGraph: {
+    title: 'Integritetspolicy & GDPR - SEO Maskinen',
+    description: 'GDPR-kompatibel SEO-analys. Vi samlar aldrig personuppgifter, endast offentliga SEO-metadata.',
+    url: 'https://seomaskinen.se/privacy',
+  },
+};
 
 export default function PrivacyPolicyPage() {
   return (
