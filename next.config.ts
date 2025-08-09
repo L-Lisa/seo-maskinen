@@ -4,8 +4,6 @@ const nextConfig: NextConfig = {
   /* config options here */
   experimental: {
     optimizePackageImports: ['lucide-react'],
-    optimizeCss: true,
-    useWasmBinary: true,
     // Core Web Vitals optimizations
     scrollRestoration: true,
   },
